@@ -40,12 +40,17 @@ struct MailListView: View {
                 ScrollView {
                     LazyVStack(spacing: 0) {
                         Section {
+                            
                             ForEach(mails) { mailData in
                                 MailRow(mail:mailData)
-                                    .padding(.bottom, 20)
+                                    .padding(.bottom, 18)
                             }
                             
-                        } header: {
+                        }
+                        .padding(.top, 24)
+                        
+                        /*
+                        header: {
                             Text("Older Messages")
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
@@ -53,17 +58,17 @@ struct MailListView: View {
                                 .padding(.horizontal)
                                 .padding(.top, 8).padding(.bottom, 12)
                         }
+                         */
                     }
                 }
                 
 
                 
             }
-            .frame(maxHeight: .infinity, alignment: .top)
             .navigationTitle("SketchMail")
             .navigationBarTitleDisplayMode(.large)
+            .frame(maxHeight: .infinity, alignment: .top)
             .toolbar {
-                
                 // to separate the buttons, use toolbar spacer
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Select") {}
@@ -87,8 +92,6 @@ struct MailListView: View {
                         ComposeMailView()
                     }
                 }
-                
-                
             }
             // .searchable(text: .constant(""), prompt: "Search" )
             

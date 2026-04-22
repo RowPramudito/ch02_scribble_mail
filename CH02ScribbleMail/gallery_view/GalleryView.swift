@@ -22,6 +22,9 @@ struct GalleryView: View {
     @Query(sort: \Mail.date_send, order: .reverse) var mails: [Mail]
     // var mails: [Mail]
     
+    @State var selectedFilter = "Inbox"
+    let filters = ["Inbox", "Sent"]
+    
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -29,6 +32,14 @@ struct GalleryView: View {
     
     var body: some View {
         NavigationStack {
+            Picker("Filter", selection: $selectedFilter) {
+                ForEach(filters, id: \.self) { filter in
+                    Text(filter)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
+            
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 12) {
                     ForEach(mails) { mail in

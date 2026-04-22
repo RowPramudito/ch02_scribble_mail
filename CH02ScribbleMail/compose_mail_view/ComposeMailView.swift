@@ -48,11 +48,13 @@ struct ComposeMailView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
+                    
                     Button {
                         dismiss()
                     } label: {
                         Image(systemName: "chevron.left")
                     }
+                    
                 }
                 ToolbarSpacer(.fixed, placement: .topBarTrailing)
                 ToolbarItem(placement: .topBarTrailing) {

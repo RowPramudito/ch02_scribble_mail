@@ -9,11 +9,13 @@ import SwiftUI
 import SwiftData
 
 struct MailDetailView: View {
+    
+    @State private var isComposing: Bool = false
     var mail: Mail
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading) {
+            VStack() {
                 HStack(alignment: .top, spacing: 12) {
                     Circle()
                         .fill(Color.gray.opacity(0.5))
@@ -68,22 +70,49 @@ struct MailDetailView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.gray.opacity(0.25), lineWidth: 2)
                         )
-                    
                 }
-                .padding(.top, 16)
+                .padding(.top, 16).padding(.bottom, 12)
         
-                
+                VStack() {
+                    Button("Reply", systemImage: "paperplane") {
+                        isComposing = true
+                    }
+                    .frame(maxWidth: 81, maxHeight: 10)
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(20)
+                    .sheet(isPresented: $isComposing) {
+                        ComposeMailView()
+                    }
+                }
                 /*
                 mail.drawing
                     .resizable()
                     .scaledToFit()
                     .clipShape(RoundedRectangle(cornerRadius: 10))
-                */
                 
-
+                
+                VStack(){
+                    NavigationLink{
+                        ComposeMailView()
+                    } label: {
+                        Text("Reply")
+                            .frame(maxWidth: 100, maxHeight: 10)
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(20)
+                    }
+                }
+                */
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .padding(25)
+            
+            //reply button
+            
+
         }
     }
 }

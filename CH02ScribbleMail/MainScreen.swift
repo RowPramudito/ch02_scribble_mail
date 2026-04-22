@@ -13,7 +13,6 @@ struct MainScreenView: View {
         TabView {
             NavigationStack {
                 MailListView()
-                    .navigationTitle("Mail")
             }
             .tabItem { Label("Mail", systemImage: "envelope.fill") }
             

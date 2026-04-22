@@ -25,7 +25,7 @@ struct CH02ScribbleMailApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MailListView()
+            MainScreenView()
         }
         .modelContainer(sharedModelContainer)
     }
