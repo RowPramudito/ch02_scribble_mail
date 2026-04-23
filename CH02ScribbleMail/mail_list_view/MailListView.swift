@@ -10,6 +10,8 @@ import SwiftData
 
 struct MailListView: View {
     @Query(sort: \Mail.date_send, order: .reverse) var mails: [Mail]
+    @Query(sort: \MailSent.date_send, order: .forward) var mailsSent: [MailSent]
+    
     @State private var isComposing: Bool = false
     
     //filtering / segmented display
@@ -40,11 +42,19 @@ struct MailListView: View {
                 ScrollView {
                     LazyVStack(spacing: 0) {
                         Section {
-                            
-                            ForEach(mails) { mailData in
-                                MailRow(mail:mailData)
-                                    .padding(.bottom, 18)
+                            if selectedFilter == "Inbox" {
+                                ForEach(mails) { mailData in
+                                    MailRow(mail:mailData)
+                                        .padding(.bottom, 18)
+                                }
                             }
+                            else {
+                                ForEach(mailsSent) { mailData in
+                                    MailRowSent(mail:mailData)
+                                        .padding(.bottom, 18)
+                                }
+                            }
+
                             
                         }
                         .padding(.top, 24)

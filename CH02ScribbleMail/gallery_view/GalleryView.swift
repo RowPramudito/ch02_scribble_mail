@@ -5,14 +5,6 @@
 //  Created by Al Barra' Nasser Attamimy on 21/04/26.
 //
 
-
-//
-//  Gallery.swift
-//  MailAppRemix
-//
-//  Created by Al Barra' Nasser Attamimy on 20/04/26.
-//
-
 import SwiftUI
 import SwiftData
 
