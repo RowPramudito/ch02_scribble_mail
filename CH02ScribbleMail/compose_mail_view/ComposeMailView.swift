@@ -14,8 +14,8 @@ struct ComposeMailView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
     
-    @State var sender: String = ""
-    @State var recipient: String = ""
+    @State var sender: String = "rowang.pram@email.com"
+    @State var recipient: String
     @State var subject: String = ""
     
     @State private var currentLine = Line()
@@ -110,7 +110,7 @@ struct ComposeMailView: View {
                     } label: {
                         Image(systemName: "paperplane")
                     }
-                    .buttonStyle(.borderedProminent).tint(Color(.green))
+                    .buttonStyle(.borderedProminent).tint(Color(.blue))
                 }
             }
             .padding(.leading, 25).padding(.trailing, 25)
@@ -161,6 +161,6 @@ struct ComposeMailView: View {
 }
 
 #Preview {
-    ComposeMailView()
+    ComposeMailView(recipient: "")
 }
 

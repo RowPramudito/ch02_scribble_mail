@@ -38,7 +38,7 @@ struct GalleryView: View {
                         NavigationLink {
                             MailDetailView(mail: mail)
                         } label: {
-                            Image(mail.image_data)
+                            Image(uiImage: UIImage(data: mail.image_data) ?? UIImage())
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width: 180, height: 180)

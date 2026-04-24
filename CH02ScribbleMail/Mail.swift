@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import SwiftUI
 
 @Model
 class Mail: Identifiable {
@@ -16,14 +17,14 @@ class Mail: Identifiable {
     
     var mail_title: String
     var date_send: Date
-    var image_data: String // as string for now, just to call the image asset
+    // var image_data: String
     
     // use this later when we use real image
-    // var imageData: Data?
+    var image_data: Data
     
     var isRead: Bool = false
     
-    init(sender: String, recipient: String, mail_title: String, image_data: String, isRead: Bool) {
+    init(sender: String, recipient: String, mail_title: String, image_data: Data, isRead: Bool) {
         self.sender = sender
         self.recipient = recipient
         self.mail_title = mail_title
@@ -35,12 +36,8 @@ class Mail: Identifiable {
 
 
 let sampleData: [Mail] = [
-        Mail(sender: "Rowang", recipient: "Barra", mail_title: "pochita", image_data: "dummy4", isRead: false),
-        Mail(sender: "Barra", recipient: "Rowang", mail_title: "reze", image_data: "dummy2", isRead: false),
-        Mail(sender: "Barra", recipient: "Rowang", mail_title: "dennis", image_data: "dummy3", isRead: false),
-        Mail(sender: "Rowang", recipient: "Barra", mail_title: "pochita", image_data: "dummy4", isRead: false),
-        Mail(sender: "Barra", recipient: "Rowang", mail_title: "reze", image_data: "dummy2", isRead: false),
-        Mail(sender: "Rowang", recipient: "Barra", mail_title: "pochita", image_data: "dummy4", isRead: false),
-        Mail(sender: "Barra", recipient: "Rowang", mail_title: "reze", image_data: "dummy2", isRead: false),
+    Mail(sender: "Barra", recipient: "Rowang", mail_title: "pochita", image_data: UIImage(named:"dummy4")!.pngData()!, isRead: false),
+        Mail(sender: "Barra", recipient: "Rowang", mail_title: "reze", image_data: UIImage(named:"dummy2")!.pngData()!, isRead: false),
+        Mail(sender: "Barra", recipient: "Rowang", mail_title: "dennis", image_data: UIImage(named:"dummy3")!.pngData()!, isRead: false),
 ]
 

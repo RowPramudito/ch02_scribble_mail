@@ -2,7 +2,7 @@
 //  MailRow.swift
 //  MailAppRemix
 //
-//  Created by Utari Dyani Laksmi on 05/04/26.
+//  Created by Rowang Pramudito
 //
 
 import SwiftUI
@@ -52,7 +52,7 @@ struct MailRow: View {
                                     .foregroundColor(.gray)
                             }
                         }
-                        Image(mail.image_data)
+                        Image(uiImage: UIImage(data: mail.image_data) ?? UIImage())
                             .resizable()
                             .scaledToFill()
                             .frame(maxWidth: .infinity).frame(height: 100)
@@ -79,7 +79,7 @@ struct MailRow: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Mail.self, configurations: config)
     
-    let mail = Mail(sender: "Rowang", recipient: "Barra", mail_title: "Look at my masterpiece", image_data: "dummy4", isRead: false)
+    let mail = Mail(sender: "Rowang", recipient: "Barra", mail_title: "Look at my masterpiece", image_data: UIImage(named:"dummy4")!.pngData()!, isRead: false)
     container.mainContext.insert(mail)
     
     return MailRow(mail: mail)

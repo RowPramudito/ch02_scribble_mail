@@ -26,9 +26,9 @@ struct CH02ScribbleMailApp: App {
     
     init() {
         let sampleData: [Mail] = [
-                Mail(sender: "Rowang", recipient: "Barra", mail_title: "pochita", image_data: "dummy4", isRead: false),
-                Mail(sender: "Barra", recipient: "Rowang", mail_title: "reze", image_data: "dummy2", isRead: false),
-                Mail(sender: "Barra", recipient: "Rowang", mail_title: "dennis", image_data: "dummy3", isRead: false),
+            Mail(sender: "Rowang", recipient: "Barra", mail_title: "pochita", image_data: UIImage(named: "dummy4")!.pngData()!, isRead: false),
+            Mail(sender: "Barra", recipient: "Rowang", mail_title: "reze", image_data: UIImage(named: "dummy2")!.pngData()!, isRead: false),
+            Mail(sender: "Barra", recipient: "Rowang", mail_title: "dennis", image_data: UIImage(named: "dummy3")!.pngData()!, isRead: false),
         ]
         
         for mail in sampleData {

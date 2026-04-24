@@ -13,6 +13,7 @@ struct MailListView: View {
     @Query(sort: \MailSent.date_send, order: .forward) var mailsSent: [MailSent]
     
     @State private var isComposing: Bool = false
+    @State private var isReplying: Bool = false
     
     //filtering / segmented display
     @State var selectedFilter = "Inbox"
@@ -45,7 +46,7 @@ struct MailListView: View {
                             if selectedFilter == "Inbox" {
                                 ForEach(mails) { mailData in
                                     MailRow(mail:mailData)
-                                        .padding(.bottom, 18)
+                                    Divider()
                                 }
                             }
                             else {
@@ -54,34 +55,23 @@ struct MailListView: View {
                                         .padding(.bottom, 18)
                                 }
                             }
-
-                            
                         }
                         .padding(.top, 24)
-                        
-                        /*
-                        header: {
-                            Text("Older Messages")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.horizontal)
-                                .padding(.top, 8).padding(.bottom, 12)
-                        }
-                         */
                     }
                 }
-                
-
-                
             }
             .navigationTitle("SketchMail")
             .navigationBarTitleDisplayMode(.large)
             .frame(maxHeight: .infinity, alignment: .top)
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    
+                }
                 // to separate the buttons, use toolbar spacer
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Select") {}
+                    Button("Select") {
+                        
+                    }
                 }
                 ToolbarSpacer(.fixed, placement: .topBarTrailing)
                 ToolbarItem(placement: .topBarTrailing) {
@@ -99,13 +89,10 @@ struct MailListView: View {
                         isComposing = true
                     }
                     .sheet(isPresented: $isComposing) {
-                        ComposeMailView()
+                        ComposeMailView(recipient: "")
                     }
                 }
             }
-            // .searchable(text: .constant(""), prompt: "Search" )
-            
-            
         }
     }
 }

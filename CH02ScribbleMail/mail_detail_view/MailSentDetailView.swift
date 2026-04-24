@@ -11,6 +11,7 @@ import SwiftData
 struct MailSentDetailView: View {
     
     @State private var isComposing: Bool = false
+    @State private var isReplaying: Bool = true
     var mail: MailSent
     
     var body: some View {
@@ -83,7 +84,7 @@ struct MailSentDetailView: View {
                     .foregroundColor(.white)
                     .cornerRadius(20)
                     .sheet(isPresented: $isComposing) {
-                        ComposeMailView()
+                        ComposeMailView(recipient: mail.recipient)
                     }
                 }
                 /*
@@ -120,6 +121,6 @@ struct MailSentDetailView: View {
 
 #Preview {
     return MailDetailView(
-        mail: Mail(sender: "Rowang", recipient: "Barra", mail_title: "Hi, how are you?", image_data: "dummy1", isRead: false)
+        mail: Mail(sender: "Rowang", recipient: "Barra", mail_title: "Hi, how are you?", image_data: UIImage(named:"dummy4")!.pngData()!, isRead: false)
     )
 }
