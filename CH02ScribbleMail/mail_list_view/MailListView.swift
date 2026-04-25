@@ -10,6 +10,7 @@ import SwiftData
 
 struct MailListView: View {
     @Query(sort: \Mail.date_send, order: .reverse) var mails: [Mail]
+    
     @State private var isComposing: Bool = false
     
     //filtering / segmented display
@@ -40,38 +41,35 @@ struct MailListView: View {
                 ScrollView {
                     LazyVStack(spacing: 0) {
                         Section {
-                            
-                            ForEach(mails) { mailData in
-                                MailRow(mail:mailData)
-                                    .padding(.bottom, 18)
+                            if selectedFilter.lowercased() == "inbox" {
+                                ForEach(mails.filter { $0.mail_type.lowercased() == "inbox" }) { mailData in
+                                    MailRow(mail: mailData)
+                                        .padding(.bottom, 12)
+                                }
                             }
-                            
+                            else {
+                                ForEach(mails.filter { $0.mail_type.lowercased() == "sent" }) { mailData in
+                                    MailRowSent(mail: mailData)
+                                        .padding(.bottom, 12)
+                                }
+                            }
                         }
                         .padding(.top, 24)
-                        
-                        /*
-                        header: {
-                            Text("Older Messages")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.horizontal)
-                                .padding(.top, 8).padding(.bottom, 12)
-                        }
-                         */
                     }
                 }
-                
-
-                
             }
             .navigationTitle("SketchMail")
             .navigationBarTitleDisplayMode(.large)
             .frame(maxHeight: .infinity, alignment: .top)
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    
+                }
                 // to separate the buttons, use toolbar spacer
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Select") {}
+                    Button("Select") {
+                        
+                    }
                 }
                 ToolbarSpacer(.fixed, placement: .topBarTrailing)
                 ToolbarItem(placement: .topBarTrailing) {
@@ -89,13 +87,10 @@ struct MailListView: View {
                         isComposing = true
                     }
                     .sheet(isPresented: $isComposing) {
-                        ComposeMailView()
+                        ComposeMailView(isYourOwnMail: false, recipient: "")
                     }
                 }
             }
-            // .searchable(text: .constant(""), prompt: "Search" )
-            
-            
         }
     }
 }

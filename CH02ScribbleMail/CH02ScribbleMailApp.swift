@@ -14,7 +14,7 @@ struct CH02ScribbleMailApp: App {
         let schema = Schema([
             Mail.self,
         ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
 
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
@@ -22,6 +22,18 @@ struct CH02ScribbleMailApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
+    
+    init() {
+        let sampleData: [Mail] = [
+            Mail(sender: "Rowang", recipient: "Barra", mail_title: "pochita", image_data: UIImage(named: "dummy4")!.pngData()!, mail_type: "inbox", isRead: false),
+            Mail(sender: "Barra", recipient: "Rowang", mail_title: "reze", image_data: UIImage(named: "dummy2")!.pngData()!, mail_type: "inbox", isRead: false),
+            Mail(sender: "Barra", recipient: "Rowang", mail_title: "dennis", image_data: UIImage(named: "dummy3")!.pngData()!, mail_type: "inbox", isRead: false),
+        ]
+        
+        for mail in sampleData {
+            sharedModelContainer.mainContext.insert(mail)
+        }
+    }
 
     var body: some Scene {
         WindowGroup {

@@ -21,6 +21,7 @@ struct MainScreenView: View {
             }
             .tabItem { Label("Gallery", systemImage: "photo.stack.fill") }
         }
+        
     }
 }
 
