@@ -52,6 +52,7 @@ struct MailRow: View {
                                     .foregroundColor(.gray)
                             }
                         }
+                        .padding(.bottom, 4)
                         Image(uiImage: UIImage(data: mail.image_data) ?? UIImage())
                             .resizable()
                             .scaledToFill()
@@ -79,7 +80,7 @@ struct MailRow: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Mail.self, configurations: config)
     
-    let mail = Mail(sender: "Rowang", recipient: "Barra", mail_title: "Look at my masterpiece", image_data: UIImage(named:"dummy4")!.pngData()!, isRead: false)
+    let mail = Mail(sender: "Rowang", recipient: "Barra", mail_title: "Look at my masterpiece", image_data: UIImage(named:"dummy4")!.pngData()!, mail_type: "inbox", isRead: false)
     container.mainContext.insert(mail)
     
     return MailRow(mail: mail)

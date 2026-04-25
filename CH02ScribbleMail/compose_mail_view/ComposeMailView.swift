@@ -14,7 +14,9 @@ struct ComposeMailView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
     
-    @State var sender: String = "rowang.pram@email.com"
+    var isYourOwnMail: Bool
+    
+    @State var sender: String = "Rowang"
     @State var recipient: String
     @State var subject: String = ""
     
@@ -35,7 +37,6 @@ struct ComposeMailView: View {
                 HStack {
                     Text("From:").opacity(0.5)
                     TextField("", text: $sender)
-                    // Text("rowang.pramudito@gmail.com")
                 }
                 Divider()
                 HStack {
@@ -43,9 +44,6 @@ struct ComposeMailView: View {
                     TextField("", text: $subject)
                 }
                 Divider()
-                
-                // drawing input
-                // DrawingCanvas()
                 
                 VStack {
                     HStack {
@@ -99,8 +97,8 @@ struct ComposeMailView: View {
                 ToolbarSpacer(.fixed, placement: .topBarTrailing)
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                         guard let imageData = renderDrawing() else {return }
-                         let newMail = MailSent(sender: sender, recipient: recipient, mail_title: subject, image_data: imageData, isRead: false)
+                         guard let imageData = renderDrawing(lines: lines, currentLine: currentLine, thickness: thickness) else {return }
+                         let newMail = Mail(sender: sender, recipient: recipient, mail_title: subject, image_data: imageData, mail_type: "sent", isRead: false)
                          modelContext.insert(newMail)
                         
                          try? modelContext.save()
@@ -117,19 +115,8 @@ struct ComposeMailView: View {
         }
     }
     
-    /*
     @MainActor
-    func renderDrawing() -> Data? {
-        let renderer = ImageRenderer(content: DrawingCanvas(currentLine: $currentLine, lines: $lines, thickness: $thickness))
-        renderer.scale = UITraitCollection.current.displayScale
-        
-        return renderer.uiImage?.pngData()
-    }
-    */
-    
-    @MainActor
-    func renderDrawing() -> Data? {
-        // Render ONLY the raw canvas content, not the full DrawingCanvas view
+    func renderDrawing(lines: [Line], currentLine: Line, thickness: Double) -> Data? {
         let canvasView = Canvas { context, size in
             for line in lines {
                 var path = Path()
@@ -148,19 +135,20 @@ struct ComposeMailView: View {
                 lineJoin: .round
             ))
         }
-        .frame(width: 393, height: 400)
+        .frame(width: 350, height: 350)
         .background(Color.white)
 
         let renderer = ImageRenderer(content: canvasView)
         renderer.scale = UITraitCollection.current.displayScale
         return renderer.uiImage?.pngData()
     }
-     
-     
-     
+    
+    func isTextFieldEmpty(sender: String, recipient: String) -> Bool {
+        return false
+    }
 }
 
 #Preview {
-    ComposeMailView(recipient: "")
+    ComposeMailView(isYourOwnMail: false, recipient: "")
 }
 

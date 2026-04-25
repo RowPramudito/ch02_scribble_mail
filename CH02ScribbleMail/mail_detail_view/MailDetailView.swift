@@ -10,7 +10,11 @@ import SwiftData
 
 struct MailDetailView: View {
     
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.modelContext) private var modelContext
+    
     @State private var isComposing: Bool = false
+    
     var mail: Mail
     
     var body: some View {
@@ -67,6 +71,7 @@ struct MailDetailView: View {
                 }
                 .padding(.top, 16).padding(.bottom, 12)
         
+                /*
                 VStack() {
                     Button("Reply", systemImage: "paperplane") {
                         isComposing = true
@@ -80,7 +85,7 @@ struct MailDetailView: View {
                         ComposeMailView(recipient: mail.sender)
                     }
                 }
-                /*
+                
                 mail.drawing
                     .resizable()
                     .scaledToFit()
@@ -106,18 +111,40 @@ struct MailDetailView: View {
             
             //reply button
         }
+        .toolbar(.hidden, for: .tabBar) 
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     // add delete functionality here.
+                    modelContext.delete(mail)
+                    try? modelContext.save()
                     
+                    dismiss()
                 } label: {
-                    HStack {
-                        Image(systemName: "trash")
-                        Text("Delete")
-                    }
+                    Image(systemName: "trash")
                 }
                 .buttonStyle(.borderedProminent).tint(Color(.red))
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    isComposing = true
+                } label: {
+                    HStack {
+                        Image(systemName: "paperplane")
+                        Text("Reply")
+                    }
+                    .padding(.horizontal, 8)
+                }
+                .buttonStyle(.borderedProminent).tint(Color(.blue))
+                .sheet(isPresented: $isComposing) {
+                    if mail.mail_type == "inbox" {
+                        ComposeMailView(isYourOwnMail: false, recipient: mail.sender)
+                    }
+                    else {
+                        ComposeMailView(isYourOwnMail: true, recipient: mail.recipient)
+                    }
+                    
+                }
             }
         }
     }
@@ -126,6 +153,6 @@ struct MailDetailView: View {
 
 #Preview {
     return MailDetailView(
-        mail: Mail(sender: "Rowang", recipient: "Barra", mail_title: "Hi, how are you?", image_data: UIImage(named:"dummy1")!.pngData()!, isRead: false)
+        mail: Mail(sender: "Rowang", recipient: "Barra", mail_title: "Hi, how are you?", image_data: UIImage(named:"dummy1")!.pngData()!, mail_type: "inbox", isRead: false)
     )
 }

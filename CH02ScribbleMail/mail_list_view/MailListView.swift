@@ -10,10 +10,8 @@ import SwiftData
 
 struct MailListView: View {
     @Query(sort: \Mail.date_send, order: .reverse) var mails: [Mail]
-    @Query(sort: \MailSent.date_send, order: .forward) var mailsSent: [MailSent]
     
     @State private var isComposing: Bool = false
-    @State private var isReplying: Bool = false
     
     //filtering / segmented display
     @State var selectedFilter = "Inbox"
@@ -43,16 +41,16 @@ struct MailListView: View {
                 ScrollView {
                     LazyVStack(spacing: 0) {
                         Section {
-                            if selectedFilter == "Inbox" {
-                                ForEach(mails) { mailData in
-                                    MailRow(mail:mailData)
-                                    Divider()
+                            if selectedFilter.lowercased() == "inbox" {
+                                ForEach(mails.filter { $0.mail_type.lowercased() == "inbox" }) { mailData in
+                                    MailRow(mail: mailData)
+                                        .padding(.bottom, 12)
                                 }
                             }
                             else {
-                                ForEach(mailsSent) { mailData in
-                                    MailRowSent(mail:mailData)
-                                        .padding(.bottom, 18)
+                                ForEach(mails.filter { $0.mail_type.lowercased() == "sent" }) { mailData in
+                                    MailRowSent(mail: mailData)
+                                        .padding(.bottom, 12)
                                 }
                             }
                         }
@@ -89,7 +87,7 @@ struct MailListView: View {
                         isComposing = true
                     }
                     .sheet(isPresented: $isComposing) {
-                        ComposeMailView(recipient: "")
+                        ComposeMailView(isYourOwnMail: false, recipient: "")
                     }
                 }
             }

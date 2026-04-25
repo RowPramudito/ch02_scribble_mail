@@ -13,7 +13,6 @@ struct CH02ScribbleMailApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Mail.self,
-            MailSent.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
 
@@ -26,9 +25,9 @@ struct CH02ScribbleMailApp: App {
     
     init() {
         let sampleData: [Mail] = [
-            Mail(sender: "Rowang", recipient: "Barra", mail_title: "pochita", image_data: UIImage(named: "dummy4")!.pngData()!, isRead: false),
-            Mail(sender: "Barra", recipient: "Rowang", mail_title: "reze", image_data: UIImage(named: "dummy2")!.pngData()!, isRead: false),
-            Mail(sender: "Barra", recipient: "Rowang", mail_title: "dennis", image_data: UIImage(named: "dummy3")!.pngData()!, isRead: false),
+            Mail(sender: "Rowang", recipient: "Barra", mail_title: "pochita", image_data: UIImage(named: "dummy4")!.pngData()!, mail_type: "inbox", isRead: false),
+            Mail(sender: "Barra", recipient: "Rowang", mail_title: "reze", image_data: UIImage(named: "dummy2")!.pngData()!, mail_type: "inbox", isRead: false),
+            Mail(sender: "Barra", recipient: "Rowang", mail_title: "dennis", image_data: UIImage(named: "dummy3")!.pngData()!, mail_type: "inbox", isRead: false),
         ]
         
         for mail in sampleData {
