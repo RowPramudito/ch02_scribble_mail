@@ -13,6 +13,7 @@ struct MailDetailView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
     
+    @State private var showDeleteAlert: Bool = false
     @State private var isComposing: Bool = false
     
     var mail: Mail
@@ -115,15 +116,21 @@ struct MailDetailView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    // add delete functionality here.
-                    modelContext.delete(mail)
-                    try? modelContext.save()
-                    
-                    dismiss()
+                    showDeleteAlert = true
                 } label: {
                     Image(systemName: "trash")
                 }
                 .buttonStyle(.borderedProminent).tint(Color(.red))
+                .alert("Delete Message", isPresented: $showDeleteAlert) {
+                        Button("Delete", role: .destructive) {
+                            modelContext.delete(mail)
+                            try? modelContext.save()
+                            dismiss()
+                        }
+                        Button("Cancel", role: .cancel) {}
+                    } message: {
+                        Text("Are you sure you want to delete this message?")
+                    }
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {

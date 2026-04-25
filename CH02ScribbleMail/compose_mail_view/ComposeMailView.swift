@@ -14,6 +14,8 @@ struct ComposeMailView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
     
+    @State private var showEmptyTextFieldAlert: Bool = false
+    
     var isYourOwnMail: Bool
     
     @State var sender: String = "Rowang"
@@ -97,11 +99,18 @@ struct ComposeMailView: View {
                 ToolbarSpacer(.fixed, placement: .topBarTrailing)
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                         guard let imageData = renderDrawing(lines: lines, currentLine: currentLine, thickness: thickness) else {return }
-                         let newMail = Mail(sender: sender, recipient: recipient, mail_title: subject, image_data: imageData, mail_type: "sent", isRead: false)
-                         modelContext.insert(newMail)
                         
-                         try? modelContext.save()
+                        guard !isTextFieldEmpty(sender: sender, recipient: recipient) else {
+                            showEmptyTextFieldAlert = true
+                            return
+                        }
+                        
+                        guard let imageData = renderDrawing(lines: lines, currentLine: currentLine, thickness: thickness) else {return }
+                        
+                        let newMail = Mail(sender: sender, recipient: recipient, mail_title: subject, image_data: imageData, mail_type: "sent", isRead: false)
+                        modelContext.insert(newMail)
+                        
+                        try? modelContext.save()
                         
                         dismiss()
                         
@@ -109,6 +118,12 @@ struct ComposeMailView: View {
                         Image(systemName: "paperplane")
                     }
                     .buttonStyle(.borderedProminent).tint(Color(.blue))
+                    .alert(isPresented: $showEmptyTextFieldAlert) {
+                        Alert(
+                            title: Text("Can't sent message"),
+                            message: Text("Please fill in the sender and recipient fields")
+                        )
+                    }
                 }
             }
             .padding(.leading, 25).padding(.trailing, 25)
@@ -144,7 +159,12 @@ struct ComposeMailView: View {
     }
     
     func isTextFieldEmpty(sender: String, recipient: String) -> Bool {
-        return false
+        if sender.isEmpty || recipient.isEmpty {
+            return true
+        }
+        else {
+            return false
+        }
     }
 }
 
