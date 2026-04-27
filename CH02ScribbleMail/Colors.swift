@@ -11,7 +11,7 @@ extension Color {
     static let risoCorаl = Color(hex: "#E85A3A")
     static let risoMustard = Color(hex: "#F2C12E")
     static let risoNavy = Color(hex: "#1B2A4A")
-    static let risoSage = Color(hex: "#A8B5A0")
+    static let risoSage = Color(hex: "#7A8F73")
     
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)

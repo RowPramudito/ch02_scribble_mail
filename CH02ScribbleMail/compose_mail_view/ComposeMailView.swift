@@ -63,6 +63,7 @@ struct ComposeMailView: View {
                             HStack {
                                 Image(systemName: "xmark")
                                 Text("Clear canvas")
+                                    .fontDesign(.monospaced)
                             }
                             
                         }

@@ -15,59 +15,63 @@ struct MailRow: View {
         NavigationLink {
             MailDetailView(mail: mail)
         } label: {
-            HStack(alignment: .top, spacing: 12) {
-                
-                HStack(alignment: .center) {
-                    if !mail.isRead {
-                        Circle()
-                            .foregroundStyle(Color.risoCorаl)
-                            .frame(width: 8)
-                            .padding(.top, 22)
+            VStack {
+                HStack(alignment: .top, spacing: 12) {
+                    
+                    HStack(alignment: .center) {
+                        if !mail.isRead {
+                            Circle()
+                                .foregroundStyle(Color.risoCorаl)
+                                .frame(width: 8)
+                               // .padding(.top, 22)
+                        }
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(Color.risoNavy)
+                            .frame(width: 50, height: 50)
+                            .overlay(
+                                Text(mail.sender.prefix(1))
+                                    .foregroundColor(.risoMustard)
+                                    .font(.subheadline)
+                                    .fontDesign(.monospaced)
+                            )
                     }
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(Color.risoNavy)
-                        .frame(width: 50, height: 50)
-                        .overlay(
-                            Text(mail.sender.prefix(1))
-                                .foregroundColor(.risoMustard)
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text(mail.sender)
+                                    .foregroundColor(.risoNavy)
+                                    .fontWeight(.semibold)
+                                    .fontDesign(.monospaced)
+                                
+                                Spacer()
+                                
+                                Text(mail.date_send, style: .date)
+                                    .foregroundColor(.risoSage)
+                                    .font(.caption)
+                                    .fontDesign(.monospaced)
+                            }
+                            
+                            Text(mail.mail_title)
+                                .lineLimit(2)
                                 .font(.subheadline)
+                                .foregroundColor(.risoSage)
                                 .fontDesign(.monospaced)
-                        )
-                }
-                
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text(mail.sender)
-                            .foregroundColor(.risoNavy)
-                            .fontWeight(.semibold)
-                            .fontDesign(.monospaced)
+                        }
                         
-                        Spacer()
-                        
-                        Text(mail.date_send, style: .date)
-                            .foregroundColor(.risoSage)
-                            .font(.caption)
-                            .fontDesign(.monospaced)
                     }
-                    
-                    Text(mail.mail_title)
-                        .lineLimit(2)
-                        .font(.subheadline)
-                        .foregroundColor(.risoSage)
-                        .fontDesign(.monospaced)
-                    
-                    Image(uiImage: UIImage(data: mail.image_data) ?? UIImage())
-                        .resizable()
-                        .scaledToFill()
-                        .frame(maxWidth: .infinity).frame(height: 100)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.risoSage.opacity(0.4), lineWidth: 1)
-                        )
                 }
+                Image(uiImage: UIImage(data: mail.image_data) ?? UIImage())
+                    .resizable()
+                    .scaledToFill()
+                    .frame(maxWidth: .infinity).frame(height: 150)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.risoSage.opacity(0.4), lineWidth: 1)
+                    )
             }
-            .padding(.horizontal, 27)
+            
         }
         .simultaneousGesture(TapGesture().onEnded {
             mail.isRead = true

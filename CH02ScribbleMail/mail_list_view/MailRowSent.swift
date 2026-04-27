@@ -15,55 +15,63 @@ struct MailRowSent: View {
         NavigationLink {
             MailDetailView(mail: mail)
         } label: {
-            VStack(alignment: .center) {
-                HStack {
+            VStack {
+                HStack(alignment: .top, spacing: 12) {
+                    
                     RoundedRectangle(cornerRadius: 15)
-                        .fill(Color.gray.opacity(0.3))
+                        .fill(Color.risoNavy)
                         .frame(width: 50, height: 50)
                         .overlay(
                             Text(mail.recipient.prefix(1))
-                                .foregroundColor(.white)
+                                .foregroundColor(.risoMustard)
                                 .font(.subheadline)
+                                .fontDesign(.monospaced)
                         )
+                    
                     VStack(alignment: .leading) {
                         HStack {
                             Text(mail.recipient)
-                                .foregroundColor(.black)
+                                .foregroundColor(.risoNavy)
                                 .fontWeight(.semibold)
+                                .fontDesign(.monospaced)
                             
                             Spacer()
                             
                             Text(mail.date_send, style: .date)
-                                .foregroundColor(.gray)
+                                .foregroundColor(.risoSage)
                                 .font(.caption)
+                                .fontDesign(.monospaced)
                         }
                         
                         Text(mail.mail_title)
                             .lineLimit(2)
                             .font(.subheadline)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.risoSage)
+                            .fontDesign(.monospaced)
                     }
                 }
-                .padding(.bottom, 4)
+                
                 Image(uiImage: UIImage(data: mail.image_data) ?? UIImage())
                     .resizable()
                     .scaledToFill()
-                    .frame(maxWidth: .infinity).frame(height: 100)
+                    .frame(maxWidth: .infinity).frame(height: 150)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray.opacity(0.25), lineWidth: 1)
+                            .stroke(Color.risoSage.opacity(0.4), lineWidth: 1)
                     )
             }
-            .padding(.horizontal, 27)
         }
         .simultaneousGesture(TapGesture().onEnded {
             mail.isRead = true
         })
+        .padding()
+        .background(Color.white.opacity(0.8))
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .shadow(color: Color.risoNavy.opacity(0.08), radius: 6, x: 0, y: 2)
+        .padding(.horizontal)
     }
-    
 }
-
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)

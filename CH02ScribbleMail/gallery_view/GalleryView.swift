@@ -21,43 +21,44 @@ struct GalleryView: View {
     
     var body: some View {
         NavigationStack {
-            Picker("Filter", selection: $selectedFilter) {
-                ForEach(filters, id: \.self) { filter in
-                    Text(filter)
-                }
-            }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
-            
-            ScrollView {
-                
-                LazyVGrid(columns: columns, spacing: 12) {
-                    if selectedFilter.lowercased() == "inbox" {
-                        ForEach(mails.filter { $0.mail_type.lowercased() == "inbox" }) {
-                            mail in GalleryItem(mail: mail)
-                        }
-                    }
-                    else {
-                        ForEach(mails.filter { $0.mail_type.lowercased() == "sent" }) {
-                            mail in GalleryItem(mail: mail)
-                        }
+            VStack {
+                Picker("Filter", selection: $selectedFilter) {
+                    ForEach(filters, id: \.self) { filter in
+                        Text(filter)
                     }
                 }
+                .pickerStyle(.segmented)
                 .padding(.horizontal)
-                .padding(.bottom)
+                
+                ScrollView {
+                    
+                    LazyVGrid(columns: columns, spacing: 10) {
+                        if selectedFilter.lowercased() == "inbox" {
+                            ForEach(mails.filter { $0.mail_type.lowercased() == "inbox" }) {
+                                mail in GalleryItem(mail: mail)
+                            }
+                        }
+                        else {
+                            ForEach(mails.filter { $0.mail_type.lowercased() == "sent" }) {
+                                mail in GalleryItem(mail: mail)
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom)
+                }
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        Text("Scribble Gallery")
+                            .font(.title2.monospaced().bold())
+                            .foregroundColor(.risoNavy)
+                    }
+                }
             }
             .background(Color.risoBackground)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text("Scribble Gallery")
-                        .font(.title2.monospaced().bold())
-                        .foregroundColor(.risoNavy)
-                }
-            }
         }
     }
-    
 }
 
 #Preview {

@@ -53,7 +53,6 @@ struct MailDetailView: View {
                         }
                     
                     }
-                    Spacer()
 
                 }
                 
@@ -127,7 +126,7 @@ struct MailDetailView: View {
                 } label: {
                     Image(systemName: "trash")
                 }
-                .buttonStyle(.borderedProminent).tint(Color(.red))
+                .buttonStyle(.borderedProminent).tint(Color.risoCorаl)
                 .alert("Delete Message", isPresented: $showDeleteAlert) {
                         Button("Delete", role: .destructive) {
                             modelContext.delete(mail)
@@ -146,10 +145,11 @@ struct MailDetailView: View {
                     HStack {
                         Image(systemName: "paperplane")
                         Text("Reply")
+                            .fontDesign(.monospaced)
                     }
                     .padding(.horizontal, 8)
                 }
-                .buttonStyle(.borderedProminent).tint(Color(.blue))
+                .buttonStyle(.borderedProminent).tint(Color.risoNavy)
                 .sheet(isPresented: $isComposing) {
                     if mail.mail_type == "inbox" {
                         ComposeMailView(isYourOwnMail: false, recipient: mail.sender)
