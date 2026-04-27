@@ -9,6 +9,7 @@ struct ComposeMailView: View {
     @State private var showEmptyTextFieldAlert: Bool = false
     
     var isYourOwnMail: Bool
+    var imageBackground: UIImage? = nil
     
     @State var sender: String = "Rowang"
     @State var recipient: String
@@ -71,7 +72,7 @@ struct ComposeMailView: View {
                         .cornerRadius(10)
                     }
                     
-                    DrawingCanvas(currentLine: $currentLine, lines: $lines, thickness: $thickness)
+                    DrawingCanvas(backgroundImage: imageBackground, currentLine: $currentLine, lines: $lines, thickness: $thickness)
                         .padding(.bottom, 12).padding(.top, 12)
                     
                     Slider(value: $thickness, in: 1...20) {
@@ -118,7 +119,7 @@ struct ComposeMailView: View {
                             return
                         }
                         
-                        guard let imageData = renderDrawing(lines: lines, currentLine: currentLine, thickness: thickness) else {return }
+                        guard let imageData = renderDrawing(lines: lines, currentLine: currentLine, thickness: thickness, backgroundImage: imageBackground) else {return }
                         
                         let newMail = Mail(sender: sender, recipient: recipient, mail_title: subject, image_data: imageData, mail_type: "sent", isRead: false)
                         modelContext.insert(newMail)
@@ -145,8 +146,15 @@ struct ComposeMailView: View {
     }
     
     @MainActor
-    func renderDrawing(lines: [Line], currentLine: Line, thickness: Double) -> Data? {
+    func renderDrawing(lines: [Line], currentLine: Line, thickness: Double, backgroundImage: UIImage?) -> Data? {
         let canvasView = Canvas { context, size in
+            
+            if let uiImage = backgroundImage {
+                            let image = Image(uiImage: uiImage)
+                            let resolved = context.resolve(image)
+                            context.draw(resolved, in: CGRect(origin: .zero, size: size))
+            }
+            
             for line in lines {
                 var path = Path()
                 path.addLines(line.points)

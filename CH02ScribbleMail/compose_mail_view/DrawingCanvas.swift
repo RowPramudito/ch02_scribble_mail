@@ -17,12 +17,20 @@ struct Line {
 struct DrawingCanvas: View {
     @Environment(\.modelContext) private var modelContext
     
+    var backgroundImage: UIImage?
+    
     @Binding var currentLine: Line
     @Binding var lines: [Line]
     @Binding var thickness: Double
 
     var body: some View {
         Canvas { context, size in
+            
+            if let uiImage = backgroundImage {
+                            let image = Image(uiImage: uiImage)
+                            let resolved = context.resolve(image)
+                            context.draw(resolved, in: CGRect(origin: .zero, size: size))
+            }
             
             for line in lines {
                 var path = Path()

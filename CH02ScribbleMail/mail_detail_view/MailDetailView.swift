@@ -77,41 +77,6 @@ struct MailDetailView: View {
                         )
                 }
                 .padding(.top, 16).padding(.bottom, 12)
-        
-                /*
-                VStack() {
-                    Button("Reply", systemImage: "paperplane") {
-                        isComposing = true
-                    }
-                    .frame(maxWidth: 81, maxHeight: 10)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(20)
-                    .sheet(isPresented: $isComposing) {
-                        ComposeMailView(recipient: mail.sender)
-                    }
-                }
-                
-                mail.drawing
-                    .resizable()
-                    .scaledToFit()
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                
-                
-                VStack(){
-                    NavigationLink{
-                        ComposeMailView()
-                    } label: {
-                        Text("Reply")
-                            .frame(maxWidth: 100, maxHeight: 10)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(20)
-                    }
-                }
-                */
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .padding(25)
@@ -152,7 +117,7 @@ struct MailDetailView: View {
                 .buttonStyle(.borderedProminent).tint(Color.risoNavy)
                 .sheet(isPresented: $isComposing) {
                     if mail.mail_type == "inbox" {
-                        ComposeMailView(isYourOwnMail: false, recipient: mail.sender)
+                        ComposeMailView(isYourOwnMail: false, imageBackground: UIImage(data: mail.image_data), recipient: mail.sender)
                     }
                     else {
                         ComposeMailView(isYourOwnMail: true, recipient: mail.recipient)
