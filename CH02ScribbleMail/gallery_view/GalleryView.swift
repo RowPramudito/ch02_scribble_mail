@@ -9,10 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct GalleryView: View {
-    // let mails: [Mail]
-    
     @Query(sort: \Mail.date_send, order: .reverse) var mails: [Mail]
-    // var mails: [Mail]
     
     @State var selectedFilter = "Inbox"
     let filters = ["Inbox", "Sent"]
@@ -33,6 +30,7 @@ struct GalleryView: View {
             .padding(.horizontal)
             
             ScrollView {
+                
                 LazyVGrid(columns: columns, spacing: 12) {
                     if selectedFilter.lowercased() == "inbox" {
                         ForEach(mails.filter { $0.mail_type.lowercased() == "inbox" }) {
@@ -45,11 +43,21 @@ struct GalleryView: View {
                         }
                     }
                 }
-                .padding()
+                .padding(.horizontal)
+                .padding(.bottom)
             }
-            .navigationTitle("Drawing Gallery")
+            .background(Color.risoBackground)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Scribble Gallery")
+                        .font(.title2.monospaced().bold())
+                        .foregroundColor(.risoNavy)
+                }
+            }
         }
     }
+    
 }
 
 #Preview {
@@ -63,4 +71,3 @@ struct GalleryView: View {
     return GalleryView()
         .modelContainer(container)
 }
-

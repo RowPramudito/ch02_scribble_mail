@@ -1,11 +1,3 @@
-//
-//  ComposeMailView.swift
-//  drawing_test
-//
-//  Created by Rowang Pramudito on 20/04/26.
-//
-
-
 import SwiftUI
 import SwiftData
 import Foundation
@@ -32,20 +24,34 @@ struct ComposeMailView: View {
                 
                 // text input
                 HStack {
-                    Text("To:").opacity(0.5)
+                    Text("To:")
+                        .foregroundColor(.risoSage)
+                        .fontDesign(.monospaced)
                     TextField("", text: $recipient)
+                        .fontDesign(.monospaced)
+                        .foregroundColor(.risoNavy)
                 }
-                Divider()
+                Divider().overlay(Color.risoSage.opacity(0.4))
+                
                 HStack {
-                    Text("From:").opacity(0.5)
+                    Text("From:")
+                        .foregroundColor(.risoSage)
+                        .fontDesign(.monospaced)
                     TextField("", text: $sender)
+                        .foregroundColor(.risoNavy)
+                        .fontDesign(.monospaced)
                 }
-                Divider()
+                Divider().overlay(Color.risoSage.opacity(0.4))
+                
                 HStack {
-                    Text("Caption:").opacity(0.5)
+                    Text("Caption:")
+                        .foregroundColor(.risoSage)
+                        .fontDesign(.monospaced)
                     TextField("", text: $subject)
+                        .fontDesign(.monospaced)
+                        .foregroundColor(.risoNavy)
                 }
-                Divider()
+                Divider().overlay(Color.risoSage.opacity(0.4))
                 
                 VStack {
                     HStack {
@@ -87,12 +93,18 @@ struct ComposeMailView: View {
             .navigationTitle("New Message")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("New Message")
+                        .font(.headline.monospaced().bold())
+                        .foregroundColor(.risoNavy)
+                }
                 ToolbarItem(placement: .topBarLeading) {
                     
                     Button {
                         dismiss()
                     } label: {
                         Image(systemName: "chevron.left")
+                            .foregroundColor(.risoCorаl)
                     }
                     
                 }
@@ -117,7 +129,8 @@ struct ComposeMailView: View {
                     } label: {
                         Image(systemName: "paperplane")
                     }
-                    .buttonStyle(.borderedProminent).tint(Color(.blue))
+                    .buttonStyle(.borderedProminent)
+                    .tint(.risoCorаl)
                     .alert(isPresented: $showEmptyTextFieldAlert) {
                         Alert(
                             title: Text("Can't sent message"),
@@ -171,4 +184,3 @@ struct ComposeMailView: View {
 #Preview {
     ComposeMailView(isYourOwnMail: false, recipient: "")
 }
-

@@ -21,7 +21,18 @@ struct MainScreenView: View {
             }
             .tabItem { Label("Gallery", systemImage: "photo.stack.fill") }
         }
-        
+        .onAppear {
+            UITabBar.appearance().unselectedItemTintColor = UIColor(Color.risoSage)
+            UITabBarItem.appearance().setTitleTextAttributes(
+                [.font: UIFont.monospacedSystemFont(ofSize: 10, weight: .regular)],
+                for: .normal
+            )
+            UITabBarItem.appearance().setTitleTextAttributes(
+                [.font: UIFont.monospacedSystemFont(ofSize: 10, weight: .medium)],
+                for: .selected
+            )
+        }
+        .tint(Color.risoCorаl)
     }
 }
 

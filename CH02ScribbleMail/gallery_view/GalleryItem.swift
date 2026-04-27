@@ -23,7 +23,7 @@ struct GalleryItem: View {
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.gray.opacity(0.25), lineWidth: 1)
+                        .stroke(Color.risoSage.opacity(0.4), lineWidth: 1)
                 )
         }
     }

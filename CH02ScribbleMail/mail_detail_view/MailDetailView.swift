@@ -22,34 +22,39 @@ struct MailDetailView: View {
         NavigationStack {
             VStack() {
                 HStack(alignment: .top, spacing: 12) {
-                    Circle()
-                        .fill(Color.gray.opacity(0.5))
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(Color.risoNavy)
                         .frame(width: 50, height: 50)
                         .overlay(
-                            Text(mail.sender.prefix(1).uppercased())
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                .font(.headline)
+                            Text(mail.sender.prefix(1))
+                                .foregroundColor(.risoMustard)
+                                .font(.subheadline)
+                                .fontDesign(.monospaced)
+
                         )
-                    
                     VStack(alignment: .leading) {
                         HStack(alignment: .top) {
                             Text(mail.sender)
                                 .fontWeight(.semibold)
+                                .fontDesign(.monospaced)
                             Spacer()
                             Text(mail.date_send, style: .date)
                                 .foregroundColor(.gray)
+                                .fontDesign(.monospaced)
+                                .font(.subheadline)
                         }
-                        
                         HStack {
                             Text("To: ")
+                                .fontDesign(.monospaced)
                             Text(mail.recipient)
                                 .foregroundColor(.gray)
+                                .fontDesign(.monospaced)
+
                         }
                     
                     }
                     Spacer()
-                    
+
                 }
                 
                 // Divider()
@@ -59,6 +64,8 @@ struct MailDetailView: View {
                         .font(.title)
                         .fontWeight(.semibold)
                         .padding(.bottom, 12)
+                        .fontDesign(.monospaced)
+
                     
                     Image(uiImage: UIImage(data: mail.image_data) ?? UIImage())
                         .resizable()

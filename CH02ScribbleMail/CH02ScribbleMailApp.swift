@@ -14,6 +14,7 @@ struct CH02ScribbleMailApp: App {
         let schema = Schema([
             Mail.self,
         ])
+
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
 
         do {

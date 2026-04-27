@@ -1,10 +1,3 @@
-//
-//  FirstScreenView.swift
-//  MailAppRemix
-//
-//  Created by Utari Dyani Laksmi on 05/04/26.
-//
-
 import SwiftUI
 import SwiftData
 
@@ -13,21 +6,27 @@ struct MailListView: View {
     
     @State private var isComposing: Bool = false
     
-    //filtering / segmented display
     @State var selectedFilter = "Inbox"
     let filters = ["Inbox", "Sent"]
     
+    init() {
+        UISegmentedControl.appearance().setTitleTextAttributes(
+            [.font: UIFont.monospacedSystemFont(ofSize: 13, weight: .regular)],
+            for: .normal
+        )
+        UISegmentedControl.appearance().backgroundColor = UIColor(Color.risoBackground)
+    }
+    
     var body: some View {
-        
         NavigationStack {
             VStack {
-                Text("Updated Just Now")
+                Text("Updated just now")
+                    .font(.subheadline)
+                    .fontDesign(.monospaced)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
-                    .foregroundColor(Color.gray)
+                    .foregroundColor(.risoSage)
                 
-                
-                // Mail category picker
                 Picker("Filter", selection: $selectedFilter) {
                     ForEach(filters, id: \.self) { filter in
                         Text(filter)
@@ -36,8 +35,6 @@ struct MailListView: View {
                 .pickerStyle(.segmented)
                 .padding(.horizontal)
                 
-                
-                // list of mails
                 ScrollView {
                     LazyVStack(spacing: 0) {
                         Section {
@@ -53,48 +50,44 @@ struct MailListView: View {
                                         .padding(.bottom, 12)
                                 }
                             }
+                        } header: {
+                            Text("Older Messages")
+                                .font(.subheadline)
+                                .fontDesign(.monospaced)
+                                .foregroundColor(.risoSage)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal)
+                                .padding(.top, 8).padding(.bottom, 12)
                         }
                         .padding(.top, 24)
                     }
                 }
             }
-            .navigationTitle("SketchMail")
-            .navigationBarTitleDisplayMode(.large)
             .frame(maxHeight: .infinity, alignment: .top)
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    
+                ToolbarItem(placement: .principal) {
+                    Text("Sketchmail")
+                        .font(.title2.monospaced().bold())
+                        .foregroundColor(.risoNavy)
                 }
                 // to separate the buttons, use toolbar spacer
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Select") {
-                        
-                    }
-                }
-                ToolbarSpacer(.fixed, placement: .topBarTrailing)
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                    } label: {
-                        Image(systemName: "ellipsis")
-                    }
-                }
                 
                 
-                // bottom toolbar
                 ToolbarSpacer(.flexible, placement: .bottomBar)
                 ToolbarItem(placement: .bottomBar) {
                     Button("Compose", systemImage: "pencil.and.outline") {
                         isComposing = true
                     }
+                    .tint(.risoCorаl)
                     .sheet(isPresented: $isComposing) {
                         ComposeMailView(isYourOwnMail: false, recipient: "")
                     }
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
-
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
